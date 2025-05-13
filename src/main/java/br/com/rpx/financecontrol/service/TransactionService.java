@@ -37,14 +37,18 @@ public class TransactionService {
         return transactionRepository.findByUserAndDateBetween(user, dateStart, dateEnd);
     }
 
-    public Transaction findById(Long id) {
-        return transactionRepository.findById(id)
+    public Transaction findById(Long id, Long idUser) {
+        return transactionRepository.findByIdUser(id, idUser)
                 .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
     }
 
     @Transactional
-    public Transaction update(Long id, Transaction transaction) {
-        Transaction transactionDb = findById(id);
+    public Transaction update(
+            final Long userId,
+            final Long id,
+            final Transaction transaction
+    ) {
+        Transaction transactionDb = findById(id, userId);
         updateData(transaction, transactionDb);
         return transactionRepository.save(transactionDb);
     }
@@ -56,7 +60,10 @@ public class TransactionService {
         db.setAmount(request.getAmount());
     }
 
-    public void delete(Long id) {
-        transactionRepository.deleteById(id);
+    public void delete(
+            final Long userId,
+            final Long id
+    ) {
+        transactionRepository.deleteByIdAndUserId(userId, id);
     }
 }

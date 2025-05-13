@@ -1,0 +1,136 @@
+// Importação necessária para as novas funções de cor
+@use "sass:color";
+
+/* Variáveis de cor */
+$primary-color: #3f51b5; /* Indigo 500 */
+$primary-dark: #303f9f; /* Indigo 700 */
+$accent-color: #2196f3; /* Blue 500 */
+$text-color: #333;
+$light-gray: #f5f5f5;
+$white: #ffffff;
+$error-color: #f44336;
+
+/* Mixin para flexbox centralizado */
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  @include flex-center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, $primary-color, $accent-color);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background-color: $white;
+
+  .login-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: $primary-dark;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+.mat-form-field {
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-form-field-outline {
+    color: rgba(0, 0, 0, 0.12);
+  }
+
+  &.mat-focused {
+    .mat-form-field-outline-thick {
+      color: $primary-color;
+    }
+  }
+}
+
+.login-actions {
+  @include flex-center;
+
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    background-color: $primary-color;
+    color: $white;
+
+    &:disabled {
+      // Substituição do lighten() pela nova função color.adjust()
+      background-color: color.adjust($primary-color, $lightness: 30%);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.login-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  color: $text-color;
+
+  span {
+    font-size: 0.9rem;
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 1.5rem;
+    box-shadow: none;
+  }
+
+  .login-title {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Estilos para erros */
+.mat-error {
+  color: $error-color;
+  font-size: 0.75rem;
+}
+
+/* Spinner */
+mat-spinner {
+  margin: 0 auto;
+
+  circle {
+    stroke: $white;
+  }
+}

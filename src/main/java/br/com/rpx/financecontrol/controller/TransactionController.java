@@ -1,6 +1,5 @@
 package br.com.rpx.financecontrol.controller;
 
-import br.com.rpx.financecontrol.dto.BalanceResponseDTO;
 import br.com.rpx.financecontrol.dto.TransactionRequestDTO;
 import br.com.rpx.financecontrol.dto.TransactionResponseDTO;
 import br.com.rpx.financecontrol.model.Transaction;
@@ -9,16 +8,19 @@ import br.com.rpx.financecontrol.model.User;
 import br.com.rpx.financecontrol.service.TransactionService;
 import br.com.rpx.financecontrol.service.UserService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static br.com.rpx.financecontrol.SecurityUtils.getIdUser;
+
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/transactions")
@@ -42,14 +44,15 @@ public class TransactionController {
         return ResponseEntity.ok(converterParaResponseDTO(transactionSaved));
     }
 
-    @GetMapping(value = "/{id}/{month}/{year}")
+    @GetMapping(value = "/{month}/{year}")
     public ResponseEntity<List<TransactionResponseDTO>> listByUserAndMonthAndYear(
-            @PathVariable(value = "id") Long id,
             @PathVariable(value = "month") Integer monthId,
-            @PathVariable(value = "year") Integer yearId
+            @PathVariable(value = "year") Integer yearId,
+            Authentication authentication
     ) {
-
-        User user = userService.findById(id);
+        Long userId = getIdUser(authentication);
+        log.info("Buscando transações do mês {} e ano {} para user {}", monthId, yearId, userId);
+        User user = userService.findById(userId);
 
         List<Transaction> transactions = transacaoService.findByUserAndMonthAndYear(user, monthId, yearId);
         List<TransactionResponseDTO> response = transactions.stream()
@@ -60,12 +63,20 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TransactionResponseDTO> getById(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok(converterParaResponseDTO(transacaoService.findById(id)));
+    public ResponseEntity<TransactionResponseDTO> getById(
+            @PathVariable(value = "id") Long id,
+            Authentication authentication) {
+        Long userId = getIdUser(authentication);
+        return ResponseEntity.ok(converterParaResponseDTO(transacaoService.findById(id, userId)));
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<TransactionResponseDTO> update(@PathVariable(value = "id") Long id, @RequestBody TransactionRequestDTO request) {
+    public ResponseEntity<TransactionResponseDTO> update(
+            @PathVariable(value = "id") Long id,
+            @RequestBody TransactionRequestDTO request,
+            Authentication authentication
+    ) {
+        Long userId = getIdUser(authentication);
         Transaction transactionConverted = new Transaction().builder()
                 .description(request.getDescription())
                 .type(TypeTransaction.valueOf(request.getType()))
@@ -73,13 +84,17 @@ public class TransactionController {
                 .amount(request.getValue())
                 .build();
 
-        Transaction transaction = transacaoService.update(id, transactionConverted);
+        Transaction transaction = transacaoService.update(userId, id, transactionConverted);
         return ResponseEntity.ok(converterParaResponseDTO(transaction));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable(value = "id") Long id) {
-        transacaoService.delete(id);
+    public ResponseEntity<Void> delete(
+            @PathVariable(value = "id") Long id,
+            Authentication authentication
+    ) {
+        Long userId = getIdUser(authentication);
+        transacaoService.delete(id, userId);
         return ResponseEntity.noContent().build();
     }
 

@@ -34,17 +34,17 @@ export class DashboardComponent implements OnInit {
   constructor(private transactionService: TransactionService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getTransactionsByUserAndMonthAndYear(1, new Date().getMonth() + 1, new Date().getFullYear());
+    this.getTransactionsByUserAndMonthAndYear(new Date().getMonth() + 1, new Date().getFullYear());
   }
 
-  getTransactionsByUserAndMonthAndYear(userId: number, month: number, year: number) {
-    this.transactionService.getTransactionsByUserAndMonthAndYear(userId, month, year).subscribe(transactions => {
+  getTransactionsByUserAndMonthAndYear(month: number, year: number) {
+    this.transactionService.getTransactionsByUserAndMonthAndYear(month, year).subscribe(transactions => {
       this.transactions = transactions;
     });
   }
 
   handleSearch(filter: { month: number, year: number }) {
-    this.getTransactionsByUserAndMonthAndYear(1, filter.month, filter.year);
+    this.getTransactionsByUserAndMonthAndYear(filter.month, filter.year);
   }
 
 }

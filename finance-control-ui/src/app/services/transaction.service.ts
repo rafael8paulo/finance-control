@@ -21,8 +21,8 @@ export class TransactionService {
         private numberUtils: NumberUtils
     ) { }
 
-    getTransactionsByUserAndMonthAndYear(userId: number, month: number, year: number): Observable<Transaction[]> {
-        return this.http.get<Transaction[]>(`${this.apiUrl}/${userId}/${month}/${year}`);
+    getTransactionsByUserAndMonthAndYear(month: number, year: number): Observable<Transaction[]> {
+        return this.http.get<Transaction[]>(`${this.apiUrl}/${month}/${year}`);
     }
 
     createTransaction(transaction: TransactionForm) {

@@ -1,23 +1,24 @@
 package br.com.rpx.financecontrol.service;
 
-import br.com.rpx.financecontrol.model.Transaction;
 import br.com.rpx.financecontrol.model.User;
 import br.com.rpx.financecontrol.repository.UserRepository;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User create(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
