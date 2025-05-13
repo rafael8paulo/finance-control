@@ -1,11 +1,11 @@
 package br.com.rpx.financecontrol.security;
 
-import java.util.Collection;
-import java.util.List;
-
 import br.com.rpx.financecontrol.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 public class UserAuthenticated implements UserDetails {
     private final User user;

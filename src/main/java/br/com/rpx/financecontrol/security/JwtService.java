@@ -1,15 +1,14 @@
 package br.com.rpx.financecontrol.security;
 
-import java.time.Instant;
-import java.util.stream.Collectors;
-
-import br.com.rpx.financecontrol.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {

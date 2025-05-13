@@ -1,7 +1,6 @@
 package br.com.rpx.financecontrol.security;
 
 import br.com.rpx.financecontrol.dto.AuthenticationResponseDTO;
-import br.com.rpx.financecontrol.model.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
