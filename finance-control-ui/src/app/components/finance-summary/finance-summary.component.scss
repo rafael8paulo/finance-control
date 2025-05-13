@@ -1,0 +1,59 @@
+// finance-summary.component.scss
+.summary-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .summary-card {
+    flex: 1;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    h3 {
+      margin-top: 0;
+      color: #555;
+      font-size: 1.1rem;
+    }
+
+    .amount {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    &.income {
+      background-color: #e8f5e9;
+      border-left: 4px solid #4caf50;
+    }
+
+    &.expense {
+      background-color: #ffebee;
+      border-left: 4px solid #f44336;
+    }
+
+    &.balance {
+      background-color: #e3f2fd;
+      border-left: 4px solid #2196f3;
+
+      &.positive {
+        .amount {
+          color: #4caf50;
+        }
+      }
+
+      &.negative {
+        .amount {
+          color: #f44336;
+        }
+      }
+    }
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .summary-container {
+    flex-direction: column;
+  }
+}

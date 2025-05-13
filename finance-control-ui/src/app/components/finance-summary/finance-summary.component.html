@@ -1,0 +1,22 @@
+<div class="summary-container">
+  <div class="summary-card income">
+    <h3>Ganhos</h3>
+    <div class="amount">{{ summary.income | currency : "BRL" }}</div>
+  </div>
+
+  <div class="summary-card expense">
+    <h3>Despesas</h3>
+    <div class="amount">{{ summary.expense | currency : "BRL" }}</div>
+  </div>
+
+  <div
+    class="summary-card balance"
+    [ngClass]="{
+      positive: summary.balance >= 0,
+      negative: summary.balance < 0
+    }"
+  >
+    <h3>Saldo</h3>
+    <div class="amount">{{ summary.balance | currency : "BRL" }}</div>
+  </div>
+</div>

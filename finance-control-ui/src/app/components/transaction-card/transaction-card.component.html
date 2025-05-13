@@ -1,0 +1,14 @@
+<!-- transaction-card.component.html -->
+<div class="transaction-card" [ngClass]="{'income': transaction.type === 'INCOME', 'expense': transaction.type === 'EXPENSE'}">
+    <div class="transaction-header">
+      <h3>{{ transaction.description }}</h3>
+      <span class="amount" [ngClass]="{'positive': transaction.type === 'INCOME', 'negative': transaction.type === 'EXPENSE'}">
+        {{ transaction.type === 'INCOME' ? '+' : '-' }} {{ transaction.value | currency }}
+      </span>
+    </div>
+    
+    <div class="transaction-details">
+      <span class="date">{{ transaction.date | date:'dd/MM/yyyy' }}</span>
+      <span class="type">{{ transaction.type | lowercase }}</span>
+    </div>
+  </div>

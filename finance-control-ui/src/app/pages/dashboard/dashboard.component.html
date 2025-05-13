@@ -1,0 +1,6 @@
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+  <app-finance-summary [transactions]="transactions"></app-finance-summary>
+  <app-transaction-filter (onSearch)="handleSearch($event)"></app-transaction-filter>
+  <app-transaction-list [transactions]="transactions"></app-transaction-list>
+</div>

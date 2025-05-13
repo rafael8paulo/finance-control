@@ -1,0 +1,8 @@
+<div class="form-container">
+  <mat-card>
+    <app-transaction-form
+      (submitForm)="onTransactionSubmit($event)"
+      [transactionId]="transactionId"
+    ></app-transaction-form>
+  </mat-card>
+</div>

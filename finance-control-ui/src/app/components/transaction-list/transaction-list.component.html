@@ -1,0 +1,23 @@
+<div class="transaction-list">
+  <h2>Minhas Transações</h2>
+
+  <div class="cards-container">
+    <app-transaction-card
+      *ngFor="let transaction of filteredTransactions; trackBy: trackById"
+      [transaction]="transaction"
+      (click)="onTransactionClick(transaction)"
+    >
+    </app-transaction-card>
+  </div>
+
+  <div
+    *ngIf="filteredTransactions.length === 0 && transactions.length > 0"
+    class="empty-state"
+  >
+    Nenhuma transação encontrada para o período selecionado.
+  </div>
+
+  <div *ngIf="transactions.length === 0" class="empty-state">
+    Você ainda não possui transações cadastradas.
+  </div>
+</div>

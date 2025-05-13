@@ -1,0 +1,19 @@
+<div class="filter-container">
+  <div class="filter-group">
+    <label for="month">Mês:</label>
+    <select id="month" [(ngModel)]="selectedMonth">
+      <option *ngFor="let month of months" [value]="month.value">
+        {{ month.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="year">Ano:</label>
+    <select id="year" [(ngModel)]="selectedYear">
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+  </div>
+
+  <button class="filter-button" (click)="search()">Filtrar</button>
+</div>
