@@ -58,7 +58,7 @@ export class TransactionFormComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    if (this.transactionId !== -1) {
+    if (this.transactionId !== -1 && this.transactionId !== undefined) {
       this.service.getTransactionById(this.transactionId).subscribe(transaction => {
         this.form.patchValue(transaction);
       });

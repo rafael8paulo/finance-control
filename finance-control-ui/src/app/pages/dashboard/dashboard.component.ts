@@ -11,6 +11,7 @@ import { TransactionListComponent } from '../../components/transaction-list/tran
 import { Transaction } from '../../models/transaction-type';
 import { TransactionFilterComponent } from '../../components/transaction-filter/transaction-filter.component';
 import { FinanceSummaryComponent } from '../../components/finance-summary/finance-summary.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -25,13 +26,17 @@ import { FinanceSummaryComponent } from '../../components/finance-summary/financ
     MatGridListModule,
     TransactionListComponent,
     TransactionFilterComponent,
-    FinanceSummaryComponent,
+    FinanceSummaryComponent
   ],
 })
 export class DashboardComponent implements OnInit {
   transactions: Transaction[] = [];
 
-  constructor(private transactionService: TransactionService, private dialog: MatDialog) { }
+  constructor(
+    private transactionService: TransactionService, 
+    private dialog: MatDialog,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.getTransactionsByUserAndMonthAndYear(new Date().getMonth() + 1, new Date().getFullYear());
@@ -45,6 +50,10 @@ export class DashboardComponent implements OnInit {
 
   handleSearch(filter: { month: number, year: number }) {
     this.getTransactionsByUserAndMonthAndYear(filter.month, filter.year);
+  }
+
+  onNewTransaction() {
+    this.router.navigate(['/transactions']);
   }
 
 }
