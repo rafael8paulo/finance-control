@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+  finance-control-ui-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: finance-control-ui:v1
+    container_name: finance-control-ui
+    restart: on-failure
+    ports:
+      - 8080:80
