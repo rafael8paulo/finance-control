@@ -13,11 +13,6 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponseDTO authenticate(Authentication authentication) {
-        String token = jwtService.generateToken(authentication);
-        UserAuthenticated user = (UserAuthenticated) authentication.getPrincipal();
-        return AuthenticationResponseDTO.builder()
-                .token(token)
-                .userId(user.getId())
-                .build();
+        return jwtService.generateToken(authentication);
     }
 }

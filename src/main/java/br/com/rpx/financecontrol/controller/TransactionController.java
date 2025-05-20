@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static br.com.rpx.financecontrol.SecurityUtils.getIdUser;
+import static br.com.rpx.financecontrol.utils.SecurityUtils.getIdUser;
 
 @Slf4j
 @RestController

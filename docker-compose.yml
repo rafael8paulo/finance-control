@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  finance-control-db:
+    image: postgres:16
+    container_name: finance-control-db
+    environment:
+      POSTGRES_DB: finance_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - finance-control-network
+
+  finance-control-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finance-control-api
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=finance-control-db
+      - DB_PORT=5432
+      - DB_NAME=finance_db
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    networks:
+      - finance-control-network
+    depends_on:
+      - finance-control-db
+
+  finance-control-ui:
+    build:
+      context: ./finance-control-ui
+      dockerfile: Dockerfile
+    image: finance-control-ui:v1
+    container_name: finance-control-ui
+    restart: on-failure
+    ports:
+      - "80:80"
+    networks:
+      finance-control-network:
+    depends_on:
+      - finance-control-api
+
+networks:
+  finance-control-network:
+    driver: bridge
+volumes:
+  postgres_data: 

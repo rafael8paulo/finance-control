@@ -24,7 +24,7 @@ export class FormTransactionComponent implements OnInit {
   }
 
   onTransactionSubmit(transaction: TransactionForm) {
-    if (this.transactionId !== -1) {
+    if (this.transactionId !== undefined) {
       this.service.updateTransaction(this.transactionId, transaction);
     } else {
       this.service.createTransaction(transaction);

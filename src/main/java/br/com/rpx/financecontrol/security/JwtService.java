@@ -1,7 +1,9 @@
 package br.com.rpx.financecontrol.security;
 
+import br.com.rpx.financecontrol.dto.AuthenticationResponseDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -18,16 +20,15 @@ public class JwtService {
         this.encoder = encoder;
     }
 
-    public String generateToken(Authentication authentication) {
+    public AuthenticationResponseDTO generateToken(Authentication authentication) {
         Instant now = Instant.now();
         long expiry = 1800L;
 
-        String scope = authentication
-                .getAuthorities().stream()
+        String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
-        UserAuthenticated userAuthenticated = (UserAuthenticated) authentication.getPrincipal();
+        Long userId = extractUserIdFromAuthentication(authentication);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("spring-security-jwt")
@@ -35,10 +36,23 @@ public class JwtService {
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(authentication.getName())
                 .claim("scope", scope)
-                .claim("userId",  userAuthenticated.getId())
+                .claim("userId", userId)
                 .build();
 
-        return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return AuthenticationResponseDTO.builder()
+                .token(encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue())
+                .userId(userId)
+                .build();
+    }
+
+    private Long extractUserIdFromAuthentication(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof UserAuthenticated) {
+            return ((UserAuthenticated) authentication.getPrincipal()).getId();
+        } else if (authentication.getPrincipal() instanceof Jwt) {
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+            return Long.valueOf(jwt.getClaimAsString("userId"));
+        }
+        throw new IllegalStateException("Tipo de principal não suportado: " + authentication.getPrincipal().getClass().getName());
     }
 
 }
