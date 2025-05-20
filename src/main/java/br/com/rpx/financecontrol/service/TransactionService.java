@@ -3,6 +3,7 @@ package br.com.rpx.financecontrol.service;
 import br.com.rpx.financecontrol.model.Transaction;
 import br.com.rpx.financecontrol.model.User;
 import br.com.rpx.financecontrol.repository.TransactionRepository;
+import br.com.rpx.financecontrol.service.exceptions.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class TransactionService {
 
     public Transaction findById(Long id, Long idUser) {
         return transactionRepository.findByIdUser(id, idUser)
-                .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Transação não encontrada"));
     }
 
     @Transactional

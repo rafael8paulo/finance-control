@@ -44,11 +44,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/authenticate",
-                                "/swagger-ui/**",       // Libera o Swagger UI
-                                "/v3/api-docs/**",      // Libera a documentação OpenAPI JSON
-                                "/swagger-resources/**", // Recursos do Swagger
-                                "/swagger-ui.html",     // Página HTML do Swagger
-                                "/webjars/**",           // Webjars que o Swagger usa
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/swagger-ui.html",
+                                "/webjars/**",
                                 "/users"
                         ).permitAll()
                         .anyRequest().authenticated())
