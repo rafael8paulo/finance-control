@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.seudominio.com/api',
-  idUser: 1
+  apiUrl: 'https://finance-control-api-yso8.onrender.com'
 };

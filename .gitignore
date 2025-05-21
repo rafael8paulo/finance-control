@@ -78,7 +78,6 @@ aot/
 
 # Configuração do Angular
 /browserconfig.xml
-angular.json
 
 # Testes
 /coverage
