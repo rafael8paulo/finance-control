@@ -112,8 +112,6 @@ $RECYCLE.BIN/
 *.sqlite
 
 ### Arquivos de configuração local ###
-application.properties
-application-*.properties
 *.keystore
 *.truststore
 
